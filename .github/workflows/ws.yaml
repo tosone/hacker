@@ -1,0 +1,42 @@
+name: Build CI
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 */10 * * *" # 每十个小时一次
+
+jobs:
+  ws-attack:
+    name: ws attack
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go:
+          [
+            "1.11",
+            "1.12",
+            "1.13",
+            "1.14",
+            "1.15",
+            "1.16",
+            "1.17",
+            "1.18",
+            "1.19",
+            "1.20",
+          ]
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          lfs: true
+      - name: Setup golang
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go }}
+      - name: Run k6 local test
+        uses: grafana/k6-action@v0.3.0
+        with:
+          filename: ws.js
