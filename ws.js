@@ -2,8 +2,8 @@ import ws from "k6/ws";
 
 export let options = {
   stages: [
-    { duration: "1m", target: 3 },
-    { duration: "5m", target: 3 },
+    { duration: "1m", target: 10 },
+    { duration: "5m", target: 30 },
   ],
 };
 
